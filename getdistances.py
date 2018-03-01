@@ -43,7 +43,8 @@ def distanceFromBp(fromWhere):
     # The maps_key defined below isn't a valid Google Maps API key.
     # You need to get your own API key.
     # See https://developers.google.com/maps/documentation/timezone/get-api-key
-    maps_key = 'AIzaSyB7dsmkO_2ii5DA8iKjYfoTvSl9e881oBo'
+    #maps_key = 'AIzaSyB7dsmkO_2ii5DA8iKjYfoTvSl9e881oBo'
+    maps_key = 'AIzaSyDwrfsayFQvWGvbzl5dVx0A5eD3iJMG-sU'
     timezone_base_url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 
     # This joins the parts of the URL together into one string.
@@ -67,7 +68,11 @@ def distanceFromBp(fromWhere):
             # If we didn't get an IOError then parse the result.
             result = json_loads_byteified(response)
             if result['status'] == 'OK':
-                return result['rows'][0]['elements'][0]['distance']['value']
+                # IF THE CITY IS IN THE GOOGLE MAPS DATABASE
+                if 'duration' in result['rows'][0]['elements'][0]:
+                    return result['rows'][0]['elements'][0]['distance']['value']
+                else:
+                    return -1
             elif result['status'] != 'UNKNOWN_ERROR':
                 # Many API errors cannot be fixed by a retry, e.g. INVALID_REQUEST or
                 # ZERO_RESULTS. There is no point retrying these requests.
@@ -80,7 +85,9 @@ def distanceFromBp(fromWhere):
         current_delay *= 2  # Increase the delay each time we retry.
 
 cities = open('cities.txt', 'r')
+distances = open('distances.txt', 'w')
 for city in cities.readlines():
-    print 'Working on ' + city
-    distance = distanceFromBp(city)
-    print city + ": " + str(distance)
+    print 'Working on ' + city[:-1]
+    distance = distanceFromBp(city[:-1])
+    print city[:-1] + ": " + str(distance)
+    distances.write(city[:-1] + '; ' + str(distance) + '\n')

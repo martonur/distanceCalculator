@@ -1,0 +1,2 @@
+{'status': 'OK', 'rows': [{'elements': [{'status': 'NOT_FOUND'}]}], 'destination_addresses': ['Budapest, Hungary'], 'origin_addresses': ['']}
+{'status': 'OK', 'rows': [{'elements': [{'duration': {'text': '41 mins', 'value': 2472}, 'distance': {'text': '26.9 km', 'value': 26890}, 'status': 'OK'}]}], 'destination_addresses': ['Budapest, Hungary'], 'origin_addresses': ['Piliscsaba, Bajcsy-Zsilinszky \xc3\xbat 8, 2081 Hungary']}
